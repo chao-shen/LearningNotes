@@ -1,0 +1,25 @@
+# LeakCanary原理
+
+## 简介
+LeakCanary是一款开源的内存泄漏检查工具，在项目中，可以使用它来检测Activity是否能够被GC及时回收
+
+## 原理
+监测机制利用了Java的WeakReference和ReferenceQueue，通过将Activity包装到WeakReference中，被WeakReference包装过的Activity对象如果被回收，该WeakReference引用会被放到ReferenceQueue中，通过监测ReferenceQueue里面的内容就能检查到Activity是否能够被回收
+
+1、首先通过removeWeaklyReachablereference来移除已经被回收的Activity引用
+
+2、通过gone(reference)判断当前弱引用对应的Activity是否已经被回收，如果已经回收说明activity能够被GC，直接返回即可。
+
+3、如果Activity没有被回收，调用GcTigger.runGc方法运行GC，GC完成后在运行第1步，然后运行第2步判断Activity是否被回收了，如果这时候还没有被回收，那就说明Activity可能已经泄露。
+
+4、最后通过DisplayLeakService进行内存泄漏的展示
+
+## 注意
+在 LeakCanary.install(this);方法中的buildAndInstall里只注册了ActivityRefWatcher，说明只检测Activity的泄漏问题
+
+要想检测其他页面例如fragment，则需要Application加上RefWatcher，然后在对应fragment页面中onDestroy中加入
+
+RefWatcher refWatcher = MyApplication.getRefWatcher(this);
+refWatcher.watch(this);
+
+其中watch中参数this代表要检测的对象
