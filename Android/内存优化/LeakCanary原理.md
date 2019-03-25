@@ -14,6 +14,9 @@ LeakCanary是一款开源的内存泄漏检查工具，在项目中，可以使�
 
 4、最后通过DisplayLeakService进行内存泄漏的展示
 
+（其实 就是 onDestory的时候 把Activity实例 用弱引用 和 RQ绑定起来了，然后 被销毁了 就会出现在RQ里，如果没出现就GC一次 GC一次后 还没在RQ里 就是内存泄露了）
+
+
 ## 注意
 在 LeakCanary.install(this);方法中的buildAndInstall里只注册了ActivityRefWatcher，说明只检测Activity的泄漏问题
 
@@ -23,3 +26,5 @@ RefWatcher refWatcher = MyApplication.getRefWatcher(this);
 refWatcher.watch(this);
 
 其中watch中参数this代表要检测的对象
+
+[007 LeakCanary 内存泄漏原理完全解析](https://juejin.im/post/5c054e91e51d45242906ed68)
