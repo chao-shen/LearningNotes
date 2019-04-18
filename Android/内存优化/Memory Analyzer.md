@@ -6,10 +6,24 @@
 ## 用法
 用Memory Profiler的堆转储功能，生成hprof文件，该文件需要经过Android SDK提供了这个工具 hprof-conv (位于 sdk/tools下)才能被 MAT识别
 
-命令行：hprof-conv 转换前.hprof 转换后.hprof
+### 命令行：hprof-conv 转换前.hprof 转换后.hprof
 ![image](https://img-blog.csdnimg.cn/20190415235848803.png "")
 
 
- 用 MAT打开转换后的 hprof文件 
+ ### 用 MAT打开转换后的 hprof文件 
 ![image](https://img-blog.csdnimg.cn/20190416001003148.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoYW9fc2hlbg==,size_16,color_FFFFFF,t_70 "")
 
+### histogram（直方图）介绍
+直方图显示内存占有情况，可以过滤类名或者按照包名查找
+![image](https://img-blog.csdnimg.cn/20190417205821803.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoYW9fc2hlbg==,size_16,color_FFFFFF,t_70 "")
+
+搜索HeapLeakActivity然后选择incoming Reference，代表改类对象被谁引用了
+![image](https://img-blog.csdnimg.cn/20190417210156670.png "")
+
+![image](https://img-blog.csdnimg.cn/20190417210609135.png "")
+
+![image](https://img-blog.csdnimg.cn/20190417210815982.png "")
+
+### dominator tree（支配树）介绍
+该功能主要展示对象占用总消耗内存的百分比，占用内存较大的需要处理优化
+![image](https://img-blog.csdnimg.cn/20190417211135165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoYW9fc2hlbg==,size_16,color_FFFFFF,t_70 "")
