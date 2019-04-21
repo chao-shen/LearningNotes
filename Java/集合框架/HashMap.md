@@ -41,7 +41,7 @@ HashMap的buckets数组其实就是一个链表数组，在发生冲突时只需
 
 HashMap通过负载因子（Load Factor）乘以buckets数组的长度来计算出临界值，算法：threshold = load_factor * capacity。比如，HashMap的默认初始容量为16（capacity = 16），默认负载因子为0.75（load_factor = 0.75），那么临界值就为threshold = 0.75 * 16 = 12，只要Entry的数量大于12，就会触发扩容操作。
 
-注意：HashMap不会动态地进行缩容，一个已经删除过大量Entry的HashMap（如果不打算继续添加元素的话），此时它的buckets数组经过多次扩容已经变得非常大了，这会占用非常多的无用内存，建议，丢掉这个旧HashMap，并将数据转移到一个新的HashMap
+注意：HashMap不会动态地进行缩容，一个已经删除过大量Entry的HashMap（如果不打算继续添加元素的话），此时它的buckets数组经过多次扩容已经变得非常大了，这会占用非常多的无用内存，建议，丢掉这个旧HashMap，并将数据转移到一个新的HashMap。
 
 ## 添加元素
 HashMap内部维护了一个数组，每一个key都会经过散列函数得出在数组的索引，如果两个key的索引相同，那么就使用拉链法解决碰撞冲突，当Entry的数量大于临界值时，对数组进行扩容。
