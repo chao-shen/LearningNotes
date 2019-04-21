@@ -9,7 +9,7 @@
 Glide.with()方法中传入的是一个Application对象，Application对象的生命周期即应用程序的生命周期，因此Glide并不需要做什么特殊的处理，它自动就是和应用程序的生命周期是同步的，如果应用程序关闭的话，Glide的加载也会同时终止
 
 ### 非Application参数的情况
-不管你在Glide.with()方法中传入的是Activity、FragmentActivity、v4包下的Fragment、还是app包下的Fragment，最终的流程都是一样的，那就是会向当前的Activity当中添加一个隐藏的Fragment。用这个Fragment监听该页面的生命周期，该页面销毁，Fragment是可以监听到的，这样Glide就可以捕获这个事件并停止图片加载了
+不管你在Glide.with()方法中传入的是Activity、FragmentActivity、v4包下的Fragment、还是app包下的Fragment，最终的流程都是一样的，那就是会向当前的页面当中添加一个隐藏的Fragment。用这个Fragment监听该页面的生命周期，该页面销毁时，Fragment是可以监听到的，这样Glide就可以捕获这个事件并停止图片加载了
 
 ## load()解析
 返回一个DrawableTypeRequest对象，它最主要的就是它提供了asBitmap()和asGif()这两个方法，其中DrawableTypeRequest的父类DrawableRequestBuilder提供很多对图片进行处理的方法，比如说placeholder()方法、error()方法、diskCacheStrategy()方法、override()方法等
