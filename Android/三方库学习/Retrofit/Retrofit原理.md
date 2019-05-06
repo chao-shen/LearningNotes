@@ -15,7 +15,7 @@ Retrofit还提供了一个注解@URL。只要在方法中声明一个参数，�
     @GET
     Observable<InfoEntity> getUserInfo(@Url String addrUrl);
 ```
-这样，无论BaseUrl传入什么参数，都不起作用，而是用downloadFile的参数fileUrl作为请求的URL。
+这样，无论BaseUrl传入什么参数，都不起作用，而是用getUserInfo的参数addrUrl作为请求的URL。
 
 # Retrofit原理
 使用了反射和代理的设计模式
