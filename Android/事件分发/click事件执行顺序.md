@@ -39,7 +39,7 @@
 
 我们接着看dispatchTouchEvent方法，从上面我们可以知道如果有的话OnTouchListener是比onTouchEvent先执行的，当然前提是OnTouchListener返回false，即OnTouchListener并没有处理事件
 
-在View的onTouchEvent方法中，如果判断事件为MotionEvent.ACTION_UP时，则会调用performClick，而在performClick中则会回调mOnClickListener的onClick方法，即点击事件被回调，同时直接返回true
+在View的onTouchEvent方法中，如果判断事件为MotionEvent.ACTION_UP时，则会调用performClick，而在performClick中，则会判断mOnClickListener不为空的话则掉用onClick方法，即点击事件被回调，同时直接返回true
 ```
 public boolean onTouchEvent(MotionEvent event) {
         ......
@@ -80,9 +80,12 @@ view.setOnTouchListener(new View.OnTouchListener() {
 ### 再次单击button，日志信息为
 ![image](https://img-blog.csdnimg.cn/20190510222205915.png "")
 
-因为在dispatchTouchEvent直接return true，没有走onTouchEvent方法，所以就没有走setOnTouchListener方法，归类如下
+因为在setOnTouchListener直接return true，没有走onTouchEvent方法，所以就没有走setOnTouchListener方法，归类如下
 
 ![image](https://img-blog.csdnimg.cn/20190510222628327.png "")
+
+## 注意
+dispatchTouchEvent,setOnTouchListener, onTouchEvent,会根据DOWN、MOVE和UP时都被调用，而只有up时才调用setOnclickListener
 
 # 参考
 
