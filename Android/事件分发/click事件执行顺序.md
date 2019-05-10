@@ -80,7 +80,7 @@ view.setOnTouchListener(new View.OnTouchListener() {
 ### 再次单击button，日志信息为
 ![image](https://img-blog.csdnimg.cn/20190510222205915.png "")
 
-因为在setOnTouchListener直接return true，没有走onTouchEvent方法，所以就没有走setOnTouchListener方法，归类如下
+因为在setOnTouchListener直接return true，在dispatchTouchEvent执行onTouchEvent之前就已经返回true了，所以就没有走onTouchEvent方法，由于没有走onTouchEvent，也就没有走setOnClickListener方法，归类如下
 
 ![image](https://img-blog.csdnimg.cn/20190510222628327.png "")
 
