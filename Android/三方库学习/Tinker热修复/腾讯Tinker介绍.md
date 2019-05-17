@@ -15,7 +15,7 @@
 
 ![image](https://images2017.cnblogs.com/blog/967362/201710/967362-20171019165934131-408638073.png "")
 
-简述用法：gradle配置环境，每次启动app时检测有无补丁包，有的话，下载到指定目录，然后app在加载该补丁包
+简述用法：gradle配置环境，通过推送将补丁包地址推送到客户端，然后下载到指定目录，再后app在加载该补丁包
 
 生成补丁包命令：
 java -jar  tinker-patch-cli-1.7.7.jar
@@ -45,7 +45,7 @@ PathClassLoader主要加载系统级别的文件，比如apk文件
 1.multiDexEnabled true 必须设置为true，这样支持多个dex文件
 
 2.之所以通过注解生成application，是因为在apk安装的时候，虚拟机会将dex优化成odex后才拿去执行。在这个过程中会对所有class一个校验。
-校验方式：假设A该类在它的static方法，private方法，构造函数，override方法中直接引用到B类。如果A类和B类在同一个dex中，那么A类就会被打上CLASS_ISPREVERIFIED标记，被打上这个标记的类不能引用其他dex中的类，否则就会报如下异常
+校验方式：假设A类在它的static方法，private方法，构造函数，override方法中直接引用到B类。如果A类和B类在同一个dex中，那么A类就会被打上CLASS_ISPREVERIFIED标记，被打上这个标记的类不能引用其他dex中的类，否则就会报如下异常
 ```
-java.lang.IllegalAccessError: Class ref in pre-verified class resolved to unexpected implementatio
+java.lang.IllegalAccessError: Class ref in pre-verified class resolved to unexpected implementation
 ```
