@@ -1,4 +1,4 @@
-# VR使用()
+# VR使用(Google VR)
 
 ## 下载地址
 [Google VR for Android](https://github.com/googlevr/gvr-android-sdk)
@@ -21,7 +21,7 @@ VrPanoramaView vrPano = (VrPanoramaView) findViewById(R.id.vr_pano);
 
 VrPanoramaView.Options options = new VrPanoramaView.Options();
 options.inputType = VrPanoramaView.Options.TYPE_STEREO_OVER_UNDER;//图像类型为立体图像
-(VrPanoramaView.Options.TYPE_MONO图片类型为单通道图片）
+(VrPanoramaView.Options.TYPE_MONO图像类型为单通道图像）
 
 vrPano.loadImageFromBitmap(bitmap, options);
 ```
@@ -147,6 +147,10 @@ private VrVideoEventListener mVrEventListener = new VrVideoEventListener() {
 
 3.需要依赖支持库
 ```
+  compile project(':common')
+  compile project(':commonwidget')
+  compile project(':panowidget')//全景图库
+  compile project(':videowidget')//视频库
   compile 'com.google.android.exoplayer:exoplayer:r1.5.10'
   compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'
 ```
