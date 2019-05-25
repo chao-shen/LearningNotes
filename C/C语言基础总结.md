@@ -16,15 +16,23 @@
 	       } 
 
 ### C的基本数据类型 
-* java基本数据类型
+* java，C基本数据类型对比
+
 boolean  1   
+
 byte     1
-char     2         char    1个字节
-short    2         short   2 
-int      4         int     4
-long     8         long    4 (有的编译器可能是8个)
-float    4        float    4
-double   8        double   8
+
+char     2       &emsp;&emsp;  char    1个字节
+
+short    2       &emsp;&emsp;  short   2 
+
+int      4       &emsp;&emsp;&emsp;  int     4
+
+long     8       &emsp;&emsp;  long    4 (有的编译器可能是8个)
+
+float    4       &emsp;&emsp;  float    4
+
+double   8       &emsp; double   8
 
 char, int, float, double, long, short, signed, unsigned, void
 * signed 有符号数 最高位是符号位 可以表示负数 但是表示的最大值相对要小 
@@ -155,11 +163,22 @@ char, int, float, double, long, short, signed, unsigned, void
 * 函数指针的定义 返回值类型(*变量名)(接收的参数);
 * 函数指针的赋值: 函数指针只能指向跟它返回值和接收的参数相同的函数
 
-/*
-结构体 的大小  ①大于等于所有变量的大小的和 ②  最大的变量的长度的整数倍 
-函数指针  定义方式  返回值(*函数指针的名字)(形参); 
-C的结构体不能直接定义函数  可以在结构体中声明一个函数指针 通过函数指针指向一个具体的函数实现 打到结构体中有函数的目的 
-结构体的一级指针 访问结构体中的变量两种写法 ① (*p).age  ②通过间接引用运算符"->" p->age;
+
+#### 结构体 的大小  
+
+①大于等于所有变量的大小的和 
+
+②  最大的变量的长度的整数倍 
+
+#### 函数指针  定义方式  
+返回值(*函数指针的名字)(形参); 
+
+C的结构体不能直接定义函数  可以在结构体中声明一个函数指针 通过函数指针指向一个具体的函数实现， 达到结构体中有函数的目的 
+
+#### 结构体的一级指针 访问结构体中的变量两种写法
+ ① (*p).age  
+ 
+ ②通过间接引用运算符"->" p->age;
 */
 
 ### 联合体
