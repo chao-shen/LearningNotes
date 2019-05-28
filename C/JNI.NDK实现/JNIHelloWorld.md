@@ -46,8 +46,11 @@
 ![image](https://img-blog.csdnimg.cn/20190528232726645.png "")
 		
 	* ⑤ 调用ndk-build编译源代码  到主model根目录下运行ndk-build命令就会在项目中自动生成so包
-	![image](https://img-blog.csdnimg.cn/20190528232812340.png "")
-    ![image](https://img-blog.csdnimg.cn/2019052823290835.png "")
+
+![image](https://img-blog.csdnimg.cn/20190528232812340.png "")
+
+![image](https://img-blog.csdnimg.cn/2019052823290835.png "")
+
 	* ⑥ java代码中 调用System.loadlibrary("")来加载so包
 
 ## 实例效果(点击按钮)
@@ -79,8 +82,8 @@
 
 (**env).函数指针  (*env)->函数指针
 
-### jobject jclass
-jobject jclass 哪个类调用的本地函数 这个jclass 就是这个类的对象（在这个例子中 jclass 指的就是JniUtils的对象）
+### jclass
+jclass 哪个类调用的本地函数 这个jclass 就是这个类的对象（在这个例子中 jclass 指的就是JniUtils的对象）
 
 ## 想要代码有提示功能，并且可以关联到相关的头文件
 
