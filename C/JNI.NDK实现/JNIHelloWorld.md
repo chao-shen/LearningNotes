@@ -34,15 +34,18 @@
 		    	LOCAL_SRC_FILES := hello.c #.c源文件的名字
 
     			include $(BUILD_SHARED_LIBRARY)
-	* ④ 创建C源码 本地函数名的命名规则 本地函数命名规则  Java_包名_类名_本地方法名
-		* //JNIEnv* env env 是JNIEnv 的一级指针  env就是结构体 JNINativeInterface的二级指针
-		//(**env).函数指针  (*env)->函数指针
-		//JNIEnv 是结构体 JNINativeInterface的一级指针
-		//结构体 JNINativeInterface定义了大量的函数指针
-		* //jobject thiz 哪个类调用的本地函数 这个thiz 就是这个类的对象（ 在这个例子中 thiz 指的就是Mainactivity的对象 ）
-		* 必须导入 jni.h头文件
+	* ④ 创建C源码 本地函数名的命名规则 Java_包名_类名_本地方法名，可以在项目的具体路径，比如我的是cd Chaoshen\src\main\java。然后通过javah命令生成该类的头文件.这里是javah -jni com.chao.chaoshen.jni.JniUtils，生成头文件com_chao_chaoshen_jni_JniUtils.h 
+	在jin路径创建C文件并将生成头文件的方法拷贝到进去 记得必须导入 jni.h头文件
+		![image](https://img-blog.csdnimg.cn/20190528232604912.png "")
+		![image](https://img-blog.csdnimg.cn/20190528232726645.png "")
+		
 	* ⑤ 调用ndk-build编译源代码  到项目根目录下运行ndk-build命令就会在项目中自动生成so包
+	![image](https://img-blog.csdnimg.cn/20190528232812340.png "")
+    ![image](https://img-blog.csdnimg.cn/2019052823290835.png "")
 	* ⑥ java代码中 调用System.loadlibrary("")来加载so包
+
+## 实例效果(点击按钮)
+![image](https://img-blog.csdnimg.cn/2019052823340078.png "")
 
 ## jni开发常见错误
 
@@ -59,3 +62,24 @@
 		* 没有编译出对应平台的.so文件 需要手动创建 Application.mk 指定
 			* APP_ABI := armeabi x86 
 			* APP_PLATFORM := android-14  解决编译时警告的问题
+
+# 注意
+
+## JNIEnv* env概念
+
+ env 是JNIEnv 的一级指针  env就是结构体 JNINativeInterface的二级指针
+		//(**env).函数指针  (*env)->函数指针
+		//JNIEnv 是结构体 JNINativeInterface的一级指针
+		//结构体 JNINativeInterface定义了大量的函数指针
+		* //jobject thiz 哪个类调用的本地函数 这个thiz 就是这个类的对象（在这个例子中 thiz 指的就是JniUtils的对象 ）
+
+## 代码添加提示功能，并且可以关联到相关的头文件
+
+在主model里添加
+```
+externalNativeBuild {
+        ndkBuild {
+            path 'jni/Android.mk'
+        }
+    }
+```
