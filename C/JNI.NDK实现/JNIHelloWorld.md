@@ -22,7 +22,7 @@
 * jni开发流程
 * java native interface
 	* ①写java代码 声明本地方法 用关键字 native 本地方法不用实现 具体的实现在C代码中
-	* ② 创建jni目录 在项目的根目录下创建
+	* ② 创建jni目录 在主model的根目录下创建
 	* ③ 创建Android.mk  linux下的makefile文件
 		* 向编译系统描述一下 我要编译的代码在哪儿 生成一个叫什么名字的文件
 		
@@ -34,12 +34,18 @@
 		    	LOCAL_SRC_FILES := hello.c #.c源文件的名字
 
     			include $(BUILD_SHARED_LIBRARY)
-	* ④ 创建C源码 本地函数名的命名规则 Java_包名_类名_本地方法名，可以在项目的具体路径，比如我的是cd Chaoshen\src\main\java。然后通过javah命令生成该类的头文件.这里是javah -jni com.chao.chaoshen.jni.JniUtils，生成头文件com_chao_chaoshen_jni_JniUtils.h 
+	* ④ 创建C源码 本地函数名的命名规则 Java_包名_类名_本地方法名
+	
+	可以在主model的具体路径，比如我的是cd Chaoshen\src\main\java。然后通过javah命令生成该类的头文件.这里是javah -jni com.chao.chaoshen.jni.JniUtils，生成头文件com_chao_chaoshen_jni_JniUtils.h 
+	命令如下
+	![image](https://img-blog.csdnimg.cn/20190528234228648.png "")
+
 	在jin路径创建C文件并将生成头文件的方法拷贝到进去 记得必须导入 jni.h头文件
-		![image](https://img-blog.csdnimg.cn/20190528232604912.png "")
-		![image](https://img-blog.csdnimg.cn/20190528232726645.png "")
+
+![image](https://img-blog.csdnimg.cn/20190528232604912.png "")
+![image](https://img-blog.csdnimg.cn/20190528232726645.png "")
 		
-	* ⑤ 调用ndk-build编译源代码  到项目根目录下运行ndk-build命令就会在项目中自动生成so包
+	* ⑤ 调用ndk-build编译源代码  到主model根目录下运行ndk-build命令就会在项目中自动生成so包
 	![image](https://img-blog.csdnimg.cn/20190528232812340.png "")
     ![image](https://img-blog.csdnimg.cn/2019052823290835.png "")
 	* ⑥ java代码中 调用System.loadlibrary("")来加载so包
@@ -65,15 +71,18 @@
 
 # 注意
 
-## JNIEnv* env概念
+## C中JNIEnv *env, jobject jclass参数含义
 
- env 是JNIEnv 的一级指针  env就是结构体 JNINativeInterface的二级指针
-		//(**env).函数指针  (*env)->函数指针
-		//JNIEnv 是结构体 JNINativeInterface的一级指针
-		//结构体 JNINativeInterface定义了大量的函数指针
-		* //jobject thiz 哪个类调用的本地函数 这个thiz 就是这个类的对象（在这个例子中 thiz 指的就是JniUtils的对象 ）
+### *env
 
-## 代码添加提示功能，并且可以关联到相关的头文件
+结构体JNINativeInterface定义了大量的函数指针,JNIEnv是结构体JNINativeInterface的一级指针,env 是JNIEnv 的一级指针也就是JNINativeInterface的二级指针
+
+(**env).函数指针  (*env)->函数指针
+
+### jobject jclass
+jobject jclass 哪个类调用的本地函数 这个jclass 就是这个类的对象（在这个例子中 jclass 指的就是JniUtils的对象）
+
+## 想要代码有提示功能，并且可以关联到相关的头文件
 
 在主model里添加
 ```
