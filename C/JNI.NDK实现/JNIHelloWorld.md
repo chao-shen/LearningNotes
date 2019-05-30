@@ -95,3 +95,62 @@ externalNativeBuild {
         }
     }
 ```
+
+## 生成头文件出现错误:编码gbk的不可映射字符错误
+![image](https://img-blog.csdnimg.cn/201905302131512.png "")
+
+解决办法,按照UTF-8格式生成头文件：
+
+```
+...Chaoshen\src\main\java>javah -jni -encoding UTF-8 com.chao.chaoshen.jni.JniUtils
+```
+## 在C代码中如何加log
+### 首先在Android.mk中加载日志so库
+```
+#LOCAL_LDLIBS 加载本地编译好的函数库   -l加载  -llog 就是加载liblog.so
+LOCAL_LDLIBS += -llog
+```
+
+### 然后在C文件中引入即可
+```
+#include <android/log.h>
+#define LOG_TAG "chao.out"
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+```
+用法
+```
+ LOGE("length = %d", length);
+```
+最后在控制台过滤chao.out即可查看日志
+
+## C回调Java步骤
+```
+JNIEXPORT void JNICALL Java_com_chao_chaoshen_jni_JniCToJavaUtils_callBackVoidMethod
+        (JNIEnv *env, jobject obj) {
+    //①找到字节码对象
+    //jclass      (*FindClass)(JNIEnv*, const char*);
+    jclass clazz = (*env)->FindClass(env, "com/chao/chaoshen/jni/JniCToJavaUtils");
+    //②找到方法，第四个参数是方法签名
+    //jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);
+    jmethodID method = (*env)->GetMethodID(env, clazz, "helloFromJava", "()V");
+    //③创建对象，其中参数obj就是JniCToJavaUtils对象
+    //④调用方法
+    //(*CallVoidMethod)(JNIEnv*, jobject, jmethodID, ...);
+    (*env)->CallVoidMethod(env, obj, method);
+}
+```
+
+### 生成方法签名
+为什么要方法签名：
+
+因为java方法重载问题，需要传递方法签名来指定具体调用哪个方法，签名是由返回值和参数决定
+
+使用命令为
+```
+ class目录 javap -s 目标class文件目录
+
+ ...Chaoshen\build\intermediates\classes\debug>javap -s com.chao.chaoshen.jni.JniCToJavaUtils
+
+```
+示例：
+![image](https://img-blog.csdnimg.cn/20190530223658504.png "")
