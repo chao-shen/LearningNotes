@@ -1,4 +1,4 @@
-# JNIHelloWorld
+# JNI实践
 
 ## 交叉编译
 * 在一个平台下编译出另一个平台下可以运行的本地代码
@@ -61,8 +61,8 @@
 	* 本地方法没有找到  java.lang.UnsatisfiedLinkError: Native method not found: 
 		* 本地方法名写错
 			* 避免写错 javah生成头文件
-			* jdk1.7以上 到项目/src目录下去运行 生成的头文件就在src目录下
-			* jdk1.6 到项目/bin/classes 目录下运行javah 生成的头文件在  /bin/classes去找
+			* jdk1.7以上 到主model的\src\main\java目录下去运行 生成的头文件就在\src\main\java目录下
+			* jdk1.6 到主model的build\intermediates\classes\debug 目录下运行javah 生成的头文件在 build\intermediates\classes\debug去找
 			* javah +声明本地方法的类的全类名
 		* 忘记加载动态链接库 没有调用
 			* System.loadLibrary("hello");
@@ -70,7 +70,7 @@
 		* System.loadLibrary("hello"); 动态链接库的名字写错
 		* 没有编译出对应平台的.so文件 需要手动创建 Application.mk 指定
 			* APP_ABI := armeabi x86 
-			* APP_PLATFORM := android-14  解决编译时警告的问题
+			* APP_PLATFORM := android-16  解决编译时警告的问题
 
 # 注意
 
@@ -153,4 +153,5 @@ JNIEXPORT void JNICALL Java_com_chao_chaoshen_jni_JniCToJavaUtils_callBackVoidMe
 
 ```
 示例：
+
 ![image](https://img-blog.csdnimg.cn/20190530223658504.png "")
