@@ -28,5 +28,30 @@ Retrofit还提供了一个注解@URL。只要在方法中声明一个参数，�
 
 4.Call对象调用enqueue实际使用的是OkHttp的RealCall的enqueue方法，因此Retrofit的Call对象可以看成是OkHttp的Call的一个封装。当然，这不是一个简单的封装，在网络请求获得响应后，OkHttpCall还会对返回的信息进行转置，根据ConvertFactory定义的转置模式进行转换。
 
+```
+OkHttpClient httpClient = null;
+        try {
+            httpClient = new OkHttpClient.Builder().connectTimeout(12, TimeUnit.SECONDS)
+                    .writeTimeout(12, TimeUnit.SECONDS)
+                    .sslSocketFactory(getSSLSocketFactory(new ByteArrayInputStream(C.CCTVCN_CRT.getBytes())))
+                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
+                    .readTimeout(12, TimeUnit.SECONDS)
+                    .addInterceptor(publicParams)
+                    .addInterceptor(logInterceptor)
+                    .addInterceptor(mHeaderInterceptor)
+                    .build();
+        } catch (Exception e) {
+            LogUtils.e(e);
+        }
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(httpClient)
+                //增加返回值为Gson的支持(以实体类返回)
+                .addConverterFactory(GsonConverterFactory.create())
+                //增加返回值为Oservable<T>的支持
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+```
+
 # 参考文章
-[Retrofit基本原理——入门+源码解析](https://www.jianshu.com/p/07f7eb4aa9ae)
+[Retrofit原理浅析](https://www.jianshu.com/p/cd69c75d053e)
