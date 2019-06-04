@@ -34,11 +34,22 @@ PathClassLoader主要加载系统级别的文件，比如apk文件
 ![image](https://img-blog.csdnimg.cn/20190517085622272.png "")
 
 ## 修复工作原理
-1.找到DexPathList类
+服务端做dex差量，将差量包下发到客户端，在ART模式的机型上本地跟原apk中的classes.dex做merge，merge成为一个新的merge.dex后将merge.dex插入pathClassLoader的dexElement，原理类同Q-Zone
 
-2.利用反射在DexPathList的dexElements容器中添加补丁包，必须要在旧版本的dex Element元素前
+![image](https://images2018.cnblogs.com/blog/823551/201803/823551-20180311132842593-173785053.png "")
 
-3.通过循环加载我们的补丁包，完成最后的修复工作
+## 优点
+* 支持动态下发代码
+
+* 支持替换So库以及资源
+
+## 缺点
+* 不能即时生效，需要下次启动
+
+## Tinker已知问题
+* Tinker不支持修改AndroidManifest.xml
+* 不支持部分三星android-21机型，加载补丁时会主动抛出"TinkerRuntimeException:checkDexInstall failed"；
+* Dex合并内存消耗在vm head上，容易OOM，最后导致合并失败。
 
 # 注意
 
