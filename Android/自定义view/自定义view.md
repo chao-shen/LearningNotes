@@ -4,12 +4,16 @@
 
 ## View 绘制中主要流程分为measure，layout， draw 三个阶段。
 measure ：根据父 view 传递的 MeasureSpec 进行计算大小。
+
 layout ：根据 measure 子 View 所得到的布局大小和布局参数，将子View放在合适的位置上。
+
 draw ：把 View 对象绘制到屏幕上。
 
 ## MeasureSpec，主要分3类模式
 UNSPECIFIED：不指定测量模式，父视图没有限制子视图的大小，子视图可以是想要的任何尺寸，通常用于系统内部，应用开发中很少使用到。
+
 EXACTLY：精确测量模式，当该视图的 layout_width 或者 layout_height 指定为具体数值或者 match_parent 时生效，表示父视图已经决定了子视图的精确大小，这种模式下 View 的测量值就是 SpecSize 的值。
+
 AT_MOST：最大值模式，当前视图的 layout_width 或者 layout_height 指定为 wrap_content 时生效，此时子视图的尺寸可以是不超过父视图运行的最大尺寸的任何尺寸。
 
 ## view绘制顺序（主要是draw()方法）
@@ -20,7 +24,7 @@ AT_MOST：最大值模式，当前视图的 layout_width 或者 layout_height �
 measure() 方法被父 View 调用，在 measure() 中做一些准备和优化工作后，调用  onMeasure() 来进行实际的自我测量。 onMeasure() 做的事，View 和 ViewGroup 不一样
 * View：View 在 onMeasure() 中会计算出自己的尺寸然后保存
 
-* ViewGroup：ViewGroup 在 onMeasure() 中会调用所有子 View 的 measure() 让它们进行自我测量，并根据子 View 计算出的期望尺寸来计算出它们的实际尺寸和位置（实际上 99.99% 的父 View 都会使用子 View 给出的期望尺寸来作为实际尺寸，原因在下期或下下期会讲到）然后保存。同时，它也会根据子 View 的尺寸和位置来计算出自己的尺寸然后保存
+* ViewGroup：ViewGroup 在 onMeasure() 中会调用所有子 View 的 measure() 让它们进行自我测量，并根据子 View 计算出的期望尺寸来计算出它们的实际尺寸和位置（实际上 99.99% 的父 View 都会使用子 View 给出的期望尺寸来作为实际尺寸）然后保存。同时，它也会根据子 View 的尺寸和位置来计算出自己的尺寸然后保存
 
 ### 布局阶段
 layout() 方法被父 View 调用，在 layout() 中它会保存父 View 传进来的自己的位置和尺寸，并且调用 onLayout() 来进行实际的内部布局。onLayout() 做的事， View 和 ViewGroup 也不一样
