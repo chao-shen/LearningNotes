@@ -19,6 +19,8 @@ AT_MOST：最大值模式，当前视图的 layout_width 或者 layout_height �
 ## view绘制顺序（主要是draw()方法）
 ![image](https://img-blog.csdnimg.cn/2019060521490221.png "")
 
+![image](https://img-blog.csdnimg.cn/20190606084037650.png "")
+
 ## 布局过程（测量阶段和布局阶段）
 
 ### 测量阶段
