@@ -1,4 +1,11 @@
-# BlockCanary原理
+# UI卡顿优化
+## Overdraw过度绘制
+
+* 用手机中的GPU选项，就可以查看overdraw的情况，有蓝色，淡绿色，淡红色，深红色，目标是减少红色，尽量出现蓝色，原因是ui布局中有大量重叠的部分，可以通过viewstub实现，需要的时候按需加载，使用include 和merge标签减少复用布局而产生的布局嵌套。
+
+* 还有的是非必要重叠的背景，比如activity有个背景，它内部的layout也有个背景，layout中的view还有个背景，这样的话，就会出现红色，只要去掉没必要的背景就可以减小ui过度绘制情况
+
+## BlockCanary原理
 
 ## 简介
 BlockCanary是国内开发者MarkZhai开发的一套性能监控组件,主要通过监控Handler中的dispatchMessage过程所消耗的时间是否超过阀值来判断是否发生卡顿。超过阀值之后,BlockCanary就会将一些必要的log日志输出.输出的展现方法类似LeakCanary
