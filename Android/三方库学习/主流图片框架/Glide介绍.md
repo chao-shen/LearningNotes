@@ -71,3 +71,13 @@ Glide默认情况下在硬盘缓存的就是转换过后的图片，我们通过
 decodeFromCache()方法从硬盘缓存当中读取图片
 
 decodeFromSource()来读取原始图片
+
+diskCacheStrategy(DiskCacheStrategy.类型)
+
+DiskCacheStrategy.NONE 什么都不缓存
+
+DiskCacheStrategy.SOURCE 仅仅只缓存原来的全分辨率的图像
+
+DiskCacheStrategy.RESULT 仅仅缓存最终的图像，即降低分辨率后的（或者是转换后的）
+
+DiskCacheStrategy.ALL 缓存所有版本的图像（默认行为）
