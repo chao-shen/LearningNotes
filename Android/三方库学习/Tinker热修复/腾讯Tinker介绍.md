@@ -27,9 +27,10 @@ java -jar  tinker-patch-cli-1.7.7.jar
 注意补丁包中的classes.dex非常小，就是补丁的dex文件
 
 # 原理
-DexClassLoader主要加载非系统级别（用户级别）的文件，比如jar，apk文件
+DexClassLoader 主要加载非系统级别（用户级别）的文件，比如jar，apk，dex文件
 
-PathClassLoader主要加载系统级别的文件，比如apk文件
+PathClassLoader 只能加载系统中已经安装的apk
+
 
 ![image](https://img-blog.csdnimg.cn/20190517085622272.png "")
 
