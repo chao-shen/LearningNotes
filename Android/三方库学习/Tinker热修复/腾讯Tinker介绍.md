@@ -34,10 +34,49 @@ PathClassLoader 只能加载系统中已经安装的apk
 
 ![image](https://img-blog.csdnimg.cn/20190517085622272.png "")
 
-## 修复工作原理
-服务端做dex差量，将差量包下发到客户端，在ART模式的机型上本地跟原apk中的classes.dex做merge，merge成为一个新的merge.dex后将merge.dex插入pathClassLoader的dexElement，原理类同Q-Zone
+## 修复工作原理（分两个步骤讲解）
+tinker将old.apk和new.apk做了diff，拿到patch.dex，然后将patch.dex与本机中apk的classes.dex做了合并，生成新的classes.dex，运行时通过反射将合并后的dex文件放置在加载的dexElements数组的前面。
 
 ![image](https://images2018.cnblogs.com/blog/823551/201803/823551-20180311132842593-173785053.png "")
+
+### 第一步-加载patch
+根据不同的系统版本，去反射处理dexElements
+
+```
+  ClassLoader classLoader = loader;
+        if (Build.VERSION.SDK_INT >= 24) {
+            classLoader = AndroidNClassLoader.inject(loader, application);
+        }
+        //because in dalvik, if inner class is not the same classloader with it wrapper class.
+        //it won't fail at dex2opt
+        if (Build.VERSION.SDK_INT >= 23) {
+            V23.install(classLoader, files, dexOptDir);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            V19.install(classLoader, files, dexOptDir);
+        } else if (Build.VERSION.SDK_INT >= 14) {
+            V14.install(classLoader, files, dexOptDir);
+        } else {
+            V4.install(classLoader, files, dexOptDir);
+        }
+
+```
+虽然版本不一样，处理方式所有不同，但大体分为5个步骤：
+
+1.反射找到PathClassLoader（BaseDexClassLoader）对象中的pathList对象
+
+2.根据pathList对象找到其中的makeDexElements方法，传入patch相关的对应的实参，返回Element[]对象
+
+3.拿到pathList对象中原本的dexElements方法
+
+4.步骤2与步骤3中的Element[]数组进行合并，将patch相关的dex放在数组的前面
+
+5.最后将合并后的数组，设置给pathList
+
+### 第一步-合并patch
+* 首先解析了meta里面的信息，meta中包含了patch中每个dex的相关数据。然后通过ApplicationInfo拿到sourceDir，其实就是本机apk的路径；根据meta中的信息开始遍历，其实就是取出对应的dex文件，最后通过patchDexFile方法对两个dex文件做合并。
+
+* patchDexFile方法内部实现，通过ZipFile拿到其内部文件的InputStream，其实就是读取本地apk对应的dex文件，以及patch中对应dex文件，对二者的通过executeAndSaveTo方法进行合并至patchedDexFile，即patch的目标私有目录，patchedDexFile这个文件就是合并后的dex文件（合并算法没有了解）
+
 
 ## 优点
 * 支持动态下发代码
