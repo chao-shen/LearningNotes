@@ -78,7 +78,20 @@ tinker将old.apk和new.apk做了diff，拿到patch.dex，然后将patch.dex与�
 * patchDexFile方法内部实现，通过ZipFile拿到其内部文件的InputStream，其实就是读取本地apk对应的dex文件，以及patch中对应dex文件，对二者的通过executeAndSaveTo方法进行合并至patchedDexFile，即patch的目标私有目录，patchedDexFile这个文件就是合并后的dex文件（合并算法没有了解）
 
 ## 资源修复工作原理（分两个步骤讲解）
+1.反射拿到ActivityThread对象持有的LoadedApk容器
 
+2.遍历容器中LoadedApk对象,反射替换mResDir属性为补丁物理路径.
+
+3.创建新的AssetManager, 并根据补丁路径反射调用addAssetPath将补丁加载到新的AssetManager中.
+
+4.反射获得ResourcesManager持有的Resources容器对象.
+
+5.遍历出容器中的Resources对象, 替换对象的属性为新的AssetManager, 并且根据原属性重新更新Resources对象的配置.
+
+### 名词释义
+* LoadedApk 中可以获取Resource，AssetManager对象，AssetManager对象是ResourcesManager一个属性，还有用来存放文件,数据，库，资源等的路径，mResDir为资源路径
+
+* ActivityThread中维护有两个ArrayMap,分别是mPackages和mResourcePackages,这两个属性中存储的都是App加载过的LoadedApk对象.
 
 ## 优点
 * 支持动态下发代码
