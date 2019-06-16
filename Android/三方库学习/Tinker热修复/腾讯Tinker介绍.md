@@ -34,12 +34,12 @@ PathClassLoader 只能加载系统中已经安装的apk
 
 ![image](https://img-blog.csdnimg.cn/20190517085622272.png "")
 
-## 修复工作原理（分两个步骤讲解）
-tinker将old.apk和new.apk做了diff，拿到patch.dex，然后将patch.dex与本机中apk的classes.dex做了合并，生成新的classes.dex，运行时通过反射将合并后的dex文件放置在加载的dexElements数组的前面。
+## dex修复工作原理（分两个步骤讲解）
+tinker将old.apk和new.apk做了diff，拿到patch.dex，然后将patch.dex与本机中apk的classes.dex做了合并，生成新的fix_classes.dex，运行时通过反射将合并后的dex文件放置在加载的dexElements数组的前面。
 
 ![image](https://images2018.cnblogs.com/blog/823551/201803/823551-20180311132842593-173785053.png "")
 
-### 第一步-加载patch
+### 第一步-如何加载patch
 根据不同的系统版本，去反射处理dexElements
 
 ```
@@ -72,10 +72,12 @@ tinker将old.apk和new.apk做了diff，拿到patch.dex，然后将patch.dex与�
 
 5.最后将合并后的数组，设置给pathList
 
-### 第一步-合并patch
+### 第二步-如何合并patch
 * 首先解析了meta里面的信息，meta中包含了patch中每个dex的相关数据。然后通过ApplicationInfo拿到sourceDir，其实就是本机apk的路径；根据meta中的信息开始遍历，其实就是取出对应的dex文件，最后通过patchDexFile方法对两个dex文件做合并。
 
 * patchDexFile方法内部实现，通过ZipFile拿到其内部文件的InputStream，其实就是读取本地apk对应的dex文件，以及patch中对应dex文件，对二者的通过executeAndSaveTo方法进行合并至patchedDexFile，即patch的目标私有目录，patchedDexFile这个文件就是合并后的dex文件（合并算法没有了解）
+
+## 资源修复工作原理（分两个步骤讲解）
 
 
 ## 优点
@@ -100,3 +102,8 @@ tinker将old.apk和new.apk做了diff，拿到patch.dex，然后将patch.dex与�
 ```
 java.lang.IllegalAccessError: Class ref in pre-verified class resolved to unexpected implementation
 ```
+
+# 参考
+[Android 热修复 Tinker接入及源码浅析](https://blog.csdn.net/lmj623565791/article/details/54882693)
+
+[Android 热修复方案Tinker(三) Dex补丁加载](https://blog.csdn.net/l2show/article/details/53307523)
