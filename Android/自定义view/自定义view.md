@@ -42,6 +42,40 @@ layout() 方法被父 View 调用，在 layout() 中它会保存父 View 传进�
 
 3.当子 View 临时需要阻止父 View 拦截事件流时，可以调用父 View 的  requestDisallowInterceptTouchEvent() ，通知父 View 在当前事件流中不再尝试通过onInterceptTouchEvent() 来拦截。
 
+
+## 注意
+1.onMeasure(int widthMeasureSpec, int heightMeasureSpec)的参数
+
+是由mode+size两部分组成的。将int类型转化成二进制数字表示，他们都是32位的。前两位代表mode(测量模式)，后面30位才是他们的实际数值（size）。 
+
+2.getMeasuredWidth()与getWidth()区别
+
+getMeasureWidth()方法在measure()过程结束后就可以获取到，而getWidth()方法要在layout()过程结束后才能获取到。
+getMeasureWidth()方法中的值是通过setMeasuredDimension()方法来进行设置的，而getWidth()方法中的值则是通过layout(left,top,right,bottom)方法设置的
+
+3.setMeasuredDimension()提供的测量结果只是为布局提供建议，最终的取用与否要看layout()函数
+
+4.疑问：在onLayout()中布局它所有的子控件。那它自己什么时候被布局呢？
+
+在所有的控件的最顶部有一个ViewRoot，它才是所有控件的最终祖先结点，在它布局里，会调用它自己的一个layout()函数(不能被重载，代码位于View.java)：
+
+```
+public final void layout(int l, int t, int r, int b) {  
+    boolean changed = setFrame(l, t, r, b); //设置每个视图位于父视图的坐标轴  
+    if (changed || (mPrivateFlags & LAYOUT_REQUIRED) == LAYOUT_REQUIRED) {  
+        if (ViewDebug.TRACE_HIERARCHY) {  
+            ViewDebug.trace(this, ViewDebug.HierarchyTraceType.ON_LAYOUT);  
+        }  
+  
+        onLayout(changed, l, t, r, b);//回调onLayout函数 ，设置每个子视图的布局  
+    }  
+
+```
+
+在SetFrame(l,t,r,b)就是设置自己的位置，设置结束以后才会调用onLayout(changed, l, t, r, b)来设置内部所有子控件的位置。
+
+
+
 ## 小试牛刀(项目中圆角图片实现)
 onDraw方法中，先定一个path，调用它addRoundRect方法来定义一个圆角矩形路径，然后调用canvas的clipPath方法裁剪
 ```
