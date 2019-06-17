@@ -15,7 +15,7 @@ private void removeWeaklyReachableReferences() {
 }
 ```
 
-2、通过gone(reference)判断当前弱引用对应的Activity是否已经被回收，如果已经回收说明activity能够被GC，直接返回即可。（即retainedKeys集合中没有包含引用对象对应的key，它是个set集合，在刚开始ondestroy时添加了activity索引的key，key是通过randomUUID()生成的）
+2、通过gone(reference)判断当前弱引用对应的Activity是否已经被回收，如果已经回收说明activity能够被GC，直接返回即可。（即retainedKeys集合中没有包含引用对象对应的key，它是个set集合，在刚开始RefWatch.watch方法里添加了activity索引的key，key是通过randomUUID()生成的，在RefWatcher的构造方法里创建了retainedKeys 和ReferenceQueue）
 ```
 private boolean gone(KeyedWeakReference reference) {
     return !retainedKeys.contains(reference.key);
@@ -49,15 +49,17 @@ private boolean gone(KeyedWeakReference reference) {
 ## 注意
 在 LeakCanary.install(this);方法中的buildAndInstall里只注册了ActivityRefWatcher，说明只检测Activity的泄漏问题
 
-要想检测其他页面例如fragment，则需要Application加上RefWatcher，然后在对应fragment页面中onDestroy中加入
+* 要想检测其他页面例如fragment，则需要Application加上RefWatcher，然后在对应fragment页面中onDestroy中加入
 
-RefWatcher refWatcher = MyApplication.getRefWatcher(this);
-refWatcher.watch(this);
+    RefWatcher refWatcher = MyApplication.getRefWatcher(this);
 
-检查bitmap泄漏可以执行（包括所有检测内存泄漏，最终都是调用RefWatcher.watch来检测的）
+    refWatcher.watch(this);
 
-RefWatcher refWatcher = MyApplication.getRefWatcher(this);
-refWatcher.watch(bitmap);
+* 检查bitmap泄漏（包括所有检测内存泄漏，最终都是调用RefWatcher.watch来检测的）
+
+    RefWatcher refWatcher = MyApplication.getRefWatcher(this);
+
+    refWatcher.watch(bitmap);
 
 
 其中watch中参数this代表要检测的对象
