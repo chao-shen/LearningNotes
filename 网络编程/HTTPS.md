@@ -47,5 +47,11 @@ HTTPS在传输的过程中会涉及到三个密钥：
 
 8.客户端收到服务器发送来的密文，用客户端密钥对其进行对称解密，得到服务器发送的数据。这样HTTPS中的第二个HTTP请求结束，整个HTTPS传输完成。
 
+## 常见的对称加密算法
+DES、3DES、TDEA、Blowfish、RC5和IDEA
+
+## 常见的非对称加密算法
+RSA、Elgamal、Rabin、D-H、ECC（椭圆曲线加密算法）
+
 # 参考
 [Https原理及流程](https://www.jianshu.com/p/14cd2c9d2cd2)
