@@ -12,6 +12,10 @@ hash算法具有唯一性，但同时它还具有重复性，唯一性保证了�
 
 HashMap的散列函数具体流程如下图：
 
+(异或，相同为0，不同为1
+
+ 与，都为1则为1，否则为0)
+
 ![image](https://img-blog.csdnimg.cn/20190421230126417.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoYW9fc2hlbg==,size_16,color_FFFFFF,t_70 "")
 
 ## 解决冲突
