@@ -32,6 +32,20 @@ HashMap的buckets数组其实就是一个链表数组，在发生冲突时只需
 
 特点：插入Entry时发现一条链表超过阈值，会对该链表进行树化；如果在删除Entry（或进行扩容）时发现红黑树的节点太少也会把红黑树退化成链表。
 
+#### put过程（JDK1.8版）
+1.对Key求Hash值，然后再计算下标
+
+2.如果没有碰撞，直接放入桶中（碰撞的意思是计算得到的Hash值相同，需要放到同一个bucket中）
+
+3.如果碰撞了，则调用equals()比较value，value相同则替换旧值，不同则以链表的方式链接到后面
+
+4.如果链表长度超过阀值( TREEIFY THRESHOLD==8)，就把链表转成红黑树，链表长度低于6，就把红黑树转回链表
+
+5.如果桶满了(容量16*加载因子0.75)，就需要 resize（扩容2倍后重排）
+
+#### get过程
+当我们调用get()方法，HashMap会使用key的hashcode找到bucket位置，找到bucket位置之后，会调用keys.equals()方法去找到链表中正确的节点，最终找到要找的value对象。
+
 ### 开放寻址法
 在开放寻址法中，所有Entry都会存储在buckets数组，一个明显的区别是，拉链法中的每个bucket都是一个链表或其他的数据结构，而开放寻址法中的每个bucket就仅仅只是Entry本身
 
@@ -53,5 +67,5 @@ HashMap内部维护了一个数组，每一个key都会经过散列函数得出�
 ## 参考
 [Map大家族的那点事儿(4) ：HashMap](http://www.importnew.com/29724.html)
 
-[HashMap？我是谁？我在哪](http://www.importnew.com/31278.html)
+[HashMap？我是谁？我在哪](https://www.cnblogs.com/zhuoqingsen/p/HashMap.html)
 
