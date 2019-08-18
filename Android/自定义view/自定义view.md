@@ -102,6 +102,7 @@ onDraw方法中，先定一个path，调用它addRoundRect方法来定义一个�
     }
 ```
 
+![image](https://img-blog.csdnimg.cn/20190818122638607.png "")
 
 # 参考
 [Android自定义控件三部曲文章索引](https://blog.csdn.net/harvic880925/article/details/50995268)
