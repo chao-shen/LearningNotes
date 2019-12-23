@@ -27,4 +27,4 @@ synchronized会使争用不到锁的线程进入阻塞状态，而阻塞或唤�
 # 参考
 [死磕Java并发：深入分析synchronized的实现原理](http://www.importnew.com/23511.html)
 
-[彻底理解synchronized](https://juejin.im/post/5ae6dc04f265da0ba351d3ff#heading-0)
+
