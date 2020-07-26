@@ -102,7 +102,7 @@ layout_flexBasisPercent的值为一个百分比，表示设置子元素的长度
 这个和上面的刚好相反，强制限制FlexboxLayout子元素不会大于这个最大值, 不管layout_flexGrow的值为多少，子元素不会被放大到超过这个最大值。
 
 #### layout_wrapBefore
-layout_wrapBefore 属性控制强制换行，默认值为false,如果将一个子元素的这个属性设置为true，那么这个子元素将会强制换行。这个属性将忽略flex_wrap 设置的 noWrap值。
+layout_wrapBefore 属性控制强制换行，默认值为false,如果将一个子元素的这个属性设置为true，那么这个子元素将会强制换行。这个属性在flex_wrap 非nowrap值生效。
 
 ## FlexboxLayout注意点
 FlexboxLayout是没有考虑View回收的FlexboxLayout只适用于少量Item的场景，google提供了FlexboxlayoutManager，它是支持View回收的
@@ -117,7 +117,8 @@ layoutManager.setFlexDirection(FlexDirection.COLUMN);
 layoutManager.setJustifyContent(JustifyContent.FLEX_END);
 recyclerView.setLayoutManager(layoutManager);
 ```
-
+# 参考
+[FlexboxLayout基本使用](https://juejin.im/entry/59980994f265da249600b3e7)
 
 
 
