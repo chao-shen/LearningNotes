@@ -6,6 +6,9 @@
 ## 定位耗时操作的原理
 当程序ANR后，我们可以通过主线程Looper拿到主线程Thread，然后通过getStackTrace拿到主线程当前的调用栈，从而定位到发生ANR的地方，定位到耗时操作。
 
+### Looper
+MessageQueue是跟随Looper的创建而创建的，在一个线程中只会存在一个Looper对象，也就是说在一个线程中MessageQueue也只会存在一个,同一个线程会有多个handler
+
 ## 代码
 lastTimeTick/timeTick：用来判断消息是否被处理，初始化两个值相等并且为0，然后固定时间发送给handler，handler将timeTick执行+1操作，当过了固定时间，判断这两个字段是否相等，如果是不等的，则说明正常回调handlermessage方法；发现这两个字段相等，则说明handler回调有延迟，故产生卡顿，获取当前调用栈，并上传服务器。
 
