@@ -29,6 +29,8 @@ flutter doctor
 ```
 ![image](https://img-blog.csdnimg.cn/20201007205619937.png "")
 
+### flutter doctor命令检测，提示配置都已经完成，就说明可以创建flutter项目并使用了
+
 
 # 参考
 [Flutter热重载](https://flutterchina.club/get-started/test-drive/#androidsstudio)
