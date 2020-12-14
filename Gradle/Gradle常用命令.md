@@ -23,3 +23,9 @@ Mr 可以替换成你要打的 flavor，首字母大写
 比如 alpha 的话就是
 
  ./gradlew :app:assembleAlphaRelease
+
+ ## 输出组件依赖
+```
+ ./gradlew clean :app:dependencies >| ~/Documents/$(basename `pwd`).dependencies.txt
+```
+
