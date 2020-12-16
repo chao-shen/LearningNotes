@@ -29,3 +29,25 @@ Mr 可以替换成你要打的 flavor，首字母大写
  ./gradlew clean :app:dependencies >| ~/Documents/$(basename `pwd`).dependencies.txt
 ```
 
+### release包 ,取消混淆+可调试
+在主项目中app目录的build.gradle中加入如下配置
+
+```
+ debuggable true
+ minifyEnabled false
+```
+完整如下：
+
+```
+buildTypes {
+        release {
+            debuggable true
+            minifyEnabled false
+            // 如果执行的是 assembleMrRelease，那么跳过 shrinkResources
+            shrinkResources minifyEnabled && !isMrRelease && !disableShrinkRes
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles file("proguard-rules").listFiles()
+        }
+    }
+```
+
