@@ -23,4 +23,10 @@ git push origin <分支名>
 git push origin <分支名> --force
 ```
 
+需要注意：force强制push可能会覆盖别人的代码(同一分支协同开发)，所以建议用如下命令
+```
+git push origin <分支名> --force-with-lease
+```
+如果出现冲突，仍会给出和没有force一样的拒绝提示，先fetch再rebase即可
+
 ### 这样就可以完成reset远程文件到本地且提交若干个文件了
